@@ -14,14 +14,15 @@
 
 const express = require('express');
 const router = express.Router();
+const authcontroller = require('../controllers/auth-controller');
+
 
 // app.get('/',(req,res)=>{
 //     res.status(200).send("Hellow Worldsfgjkrh");
 // });
 
-router.get('/',(req,res)=>{
-    res.status(200).send("Hello World from router")
-});
-router.route
+router.route("/").get(authcontroller.home);
+ 
+router.route("/register").get(authcontroller.register)
 
 module.exports = router;
