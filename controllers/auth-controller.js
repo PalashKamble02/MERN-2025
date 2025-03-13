@@ -1,0 +1,55 @@
+const User = require("../models/user-models");
+//*-----------------------
+//* Controllers 
+//*----------------------
+
+//? In an Express.js apllication, a "controller" refers to a part of your code
+//  that is responsible for handling the application's logic. Conttrollers are
+//  typically used to process incoming requests, interact with models (data sources),
+//  and send responses back to clients. they Help organize your application by
+//  seperating concern and following the MVC(Model_View-Controller) design pattern.
+
+//   *-----------
+// Home Logic 
+//   *-----------
+
+  const home = async (req, res)=> {
+    try{
+        res.status(200).send(" Hello World From Controller");
+    } catch(error){
+        console.log(error)
+    }
+  };
+
+  // *---------
+  // Registartion Page lOgic 
+
+  // *-------------------------
+  // * User Registration Logic 
+  // *-------------------------
+  // 1. Get the registration data: Retrive user data (username , email , password).
+  // 2/ Check Email Existence: Check if the email is already registered.
+  // 3. hash Password: Securely hash the password. 
+  // 4. create user : create a new user with hashed password.
+  // 5. save to DB : save user data to the database.
+  // 6. Respond : Respond with "Registration Successful" or handle errors.
+const register = async (req,res) =>{
+    try{
+      console.log(req.body);
+      const {username , email, password, phone} = req.body;
+
+      const userExist = await User.findOne({email});
+
+      if(userExist){
+        return res.status(400).json({msg: "email already exists"});
+      }
+
+      const userCreated= await User.create({username , email, password, phone});
+
+        res.status(200).json({ msg:userCreated})
+    }catch(error){
+        res.status(500).json("internal server error")
+    }
+}
+
+  module.exports= {home, register};
