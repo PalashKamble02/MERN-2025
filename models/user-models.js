@@ -59,6 +59,11 @@ userSchema.pre("save", async function(next){
 // message wasn't changed along the way , a signature is included.
 
 
+
+// Compare the Password
+userSchema.methods.comparePassword = async function(password){
+    return  bcrypt.compare(password, this.password);
+}
 // JSON Web Toekn 
 userSchema.methods.generateToken = async function(){
   try {
